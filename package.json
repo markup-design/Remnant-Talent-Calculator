@@ -1,0 +1,35 @@
+{
+  "name": "Remnant-Talent-Calculator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "start": "webpack-dev-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nullsage/Remnant-Talent-Calculator.git"
+  },
+  "author": "Mark Inman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nullsage/Remnant-Talent-Calculator/issues"
+  },
+  "homepage": "https://github.com/nullsage/Remnant-Talent-Calculator#readme",
+  "dependencies": {
+    "@stylable/webpack-plugin": "^1.1.4",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7",
+    "babel-preset-react": "^6.24.1",
+    "html-webpack-plugin": "^3.2.0",
+    "webpack": "^4.30.0",
+    "webpack-cli": "^3.3.1",
+    "webpack-dev-server": "^3.3.1"
+  }
+}
