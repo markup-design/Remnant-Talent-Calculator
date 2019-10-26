@@ -3,8 +3,12 @@
 }
 
 .availableTalents {
-	border-bottom: 1px solid black;
+	position: fixed;
+	top: 0;
+	right: 0;
 	padding: 10px;
+	z-index: 3;
+	background-color: black;
 }
 
 .talentList {

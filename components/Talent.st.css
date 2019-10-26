@@ -2,11 +2,11 @@
 	position: relative;
  	cursor: pointer;
 	margin: 10px;
-	padding: 20px 10px;
-	border: 1px solid white;
+	padding: 0 10px;
+	border: 1px solid #007ac3;
 	width: 300px;
 	text-align: center;
-	background-color: lightblue;
+	background-color: #007ac3;
 }
 
 .root:hover {
@@ -18,24 +18,29 @@
 }
 
 .adjusters {
-	padding: 5px;
+	padding: 5px 10px;
 	display: flex;
 	justify-content: center;
+	user-select: none;
 }
 
 .adjusters .item {
-	font-size: 20px;
-	padding: 5px;
-	vertical-align: middle;
+	font-size: 32px;
+	padding: 5px 20px;
+	vertical-align: bottom;
 }
 
-.adjusters .subtract {
-	font-size: 20px;
-	padding: 5px;
+.effect {
+	width: 280px;
 }
 
 .icon {
 	padding: 10px;
+}
+
+.traitName {
+	font-size: 32px;
+	padding: 10px 10px 0 10px;
 }
 
 .obtained {
@@ -46,6 +51,7 @@
 	position: absolute;
 	top: 100%;
 	left: -1px;
+	color: black;
 	background-color: white;
 	z-index: 1;
 	box-shadow: 3px 3px 3px 0px rgba(0,0,0,0.75);

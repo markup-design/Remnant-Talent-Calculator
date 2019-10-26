@@ -59,7 +59,8 @@ export const TalentList = {
 		effect: 'Increases Experience Point Bonus by {}.',
 		obtained: 'Play the tape recorder in the basement of Ward 13.',
 		increase: 1.75,
-		symbol: '%'
+		symbol: '%',
+		icon: Icons.book
 	},
 	executioner: {
 		points: 0,
@@ -67,7 +68,8 @@ export const TalentList = {
 		effect: 'Increases Critical Hit Chance by {}.',
 		obtained: 'Defeat Ixillis in Crosus.',
 		increase: 1,
-		symbol: '%'
+		symbol: '%',
+		icon: Icons.critical
 	},
 	exploiter: {
 		points: 0,
@@ -75,7 +77,8 @@ export const TalentList = {
 		effect: 'Increases Weak Spot Damage by {}.',
 		obtained: 'Kill 150 enemies with Weak Spot Damage.',
 		increase: 1.25,
-		symbol: '%'
+		symbol: '%',
+		icon: Icons.bullseye
 	},
 	glutton: {
 		points: 0,
@@ -83,7 +86,8 @@ export const TalentList = {
 		effect: 'Increase Consumable Use Speed by {}.',
 		obtained: 'Defeat The Unclean One.',
 		increase: 2.5,
-		symbol: '%'
+		symbol: '%',
+		icon: Icons.bread
 	},
 	gaurdiansBlessing: {
 		points: 0,
@@ -91,7 +95,8 @@ export const TalentList = {
 		effect: 'Increase Melee Damage Reduction by {}.',
 		obtained: 'Look in the "detailed descriptions" section for an explanation.',
 		increase: 1,
-		symbol: '%'
+		symbol: '%',
+		icon: Icons.shieldPerson
 	},
 	handling: {
 		points: 0,
@@ -99,7 +104,8 @@ export const TalentList = {
 		effect: 'Decreases Gun Spread and Recoil by {}.',
 		obtained: 'Collect 10 Weapons.',
 		increase: -1,
-		symbol: '%'
+		symbol: '%',
+		icon: Icons.target
 	},
 	keepersBlessing: {
 		points: 0,
@@ -107,7 +113,8 @@ export const TalentList = {
 		effect: 'Increase Elemental Resistance by {}.',
 		obtained: 'Find The Labyrinth or Help the Rebels on Yaesha.',
 		increase: 1,
-		symbol: '%'
+		symbol: '%',
+		icon: Icons.shieldElement
 	},
 	kingslayer: {
 		points: 0,
@@ -115,7 +122,8 @@ export const TalentList = {
 		effect: 'Increase Critical Hit Damage by {}.',
 		obtained: 'Defeat The Undying King in Rhom - Hall of The Undying.',
 		increase: 2.5,
-		symbol: '%'
+		symbol: '%',
+		icon: Icons.targetPerson
 	},
 	mindsEye: {
 		points: 0,
@@ -123,7 +131,8 @@ export const TalentList = {
 		effect: 'Increases Ranged Damage by {}.',
 		obtained: 'Defeat The Dreamer/Nightmare.',
 		increase: 1.25,
-		symbol: '%'
+		symbol: '%',
+		icon: Icons.pistol
 	},
 	mothersBlessing: {
 		points: 0,
@@ -131,7 +140,8 @@ export const TalentList = {
 		effect: 'Ranged Damage Reduction by {}.',
 		obtained: 'Defend the Root Mother.',
 		increase: 1,
-		symbol: '%'
+		symbol: '%',
+		icon: Icons.shieldPlus
 	},
 	quickHands: {
 		points: 0,
@@ -139,7 +149,8 @@ export const TalentList = {
 		effect: 'Increases Weapon Reload Speed by {}.',
 		obtained: 'Defeat the second Dungeon Boss.',
 		increase: 1.5,
-		symbol: '%'
+		symbol: '%',
+		icon: Icons.hand
 	},
 	rapidStrike: {
 		points: 0,
@@ -147,7 +158,8 @@ export const TalentList = {
 		effect: 'Increases Melee Attack Speed by {}.',
 		obtained: 'Level a non-boss Melee weapon to 20.',
 		increase: .75,
-		symbol: '%'
+		symbol: '%',
+		icon: Icons.speedometer
 	},
 	recovery: {
 		points: 0,
@@ -155,7 +167,8 @@ export const TalentList = {
 		effect: 'Increases the value of Stamina Regeneration and decreases its delay by {}.',
 		obtained: 'Defeat Claviger in Rhom - The Spindle.',
 		increase: 1.25,
-		symbol: '%'
+		symbol: '%',
+		icon: Icons.personRegen
 	},
 	revivalist: {
 		points: 0,
@@ -163,7 +176,8 @@ export const TalentList = {
 		effect: 'Decrease Revive Speed by {}.',
 		obtained: 'Revive your teammates.',
 		increase: 5,
-		symbol: '%'
+		symbol: '%',
+		icon: Icons.personHeart
 	},
 	scavenger: {
 		points: 0,
@@ -171,7 +185,8 @@ export const TalentList = {
 		effect: 'Increases Scrap Boost by {}.',
 		obtained: 'Talk to Reggie until you run down all of his dialogue. Give him the Tarnished Ring which is obtained randomly on Earth.',
 		increase: 2.5,
-		symbol: '%'
+		symbol: '%',
+		icon: Icons.collect
 	},
 	shadowWalker: {
 		points: 0,
@@ -179,7 +194,8 @@ export const TalentList = {
 		effect: 'Reduces Enemy Awareness by {}.',
 		obtained: 'Hunter Starting Trait or obtained by completing the Hunters Hideout event that can randomly spawn in the Hidden Grotto dungeon on Earth.',
 		increase: 1.5,
-		symbol: '%'
+		symbol: '%',
+		icon: Icons.personShadow
 	},
 	sleightOfHand: {
 		points: 0,
@@ -187,7 +203,8 @@ export const TalentList = {
 		effect: 'Increase Weapon Swap Speed {}.',
 		obtained: 'Get a 100 kills with 10 different guns (1,000 total kills, 100 on each gun).',
 		increase: 2.5,
-		symbol: '%'
+		symbol: '%',
+		icon: Icons.hand
 	},
 	spirit: {
 		points: 0,
@@ -195,7 +212,8 @@ export const TalentList = {
 		effect: 'Increases Mod Power Generation by {}.',
 		obtained: 'Ex-Cultist Starting Trait or obtained by completing the Supply Run event that can randomly spawn in Sorrows Field dungeon on Earth.',
 		increase: 2.5,
-		symbol: '%'
+		symbol: '%',
+		icon: Icons.personRegen
 	},
 	swiftness: {
 		points: 0,
@@ -203,7 +221,8 @@ export const TalentList = {
 		effect: 'Movement Speed Increased by {}',
 		obtained: 'Go to the bell puzzle in Yaesha, and ring the bells with the following combination: 1-1-3-4-1-1-3-2 (left-most bell: 1, right-most bell: 5).',
 		increase: 1,
-		symbol: '%'
+		symbol: '%',
+		icon: Icons.runFast
 	},
 	suspicion: {
 		points: 0,
@@ -211,7 +230,8 @@ export const TalentList = {
 		effect: 'Reduced Friendly Fire Damage Taken by {}.',
 		obtained: 'Be downed by your teammates 10 times.',
 		increase: 1,
-		symbol: '%'
+		symbol: '%',
+		icon: Icons.shieldHome
 	},
 	teamwork: {
 		points: 0,
@@ -219,7 +239,8 @@ export const TalentList = {
 		effect: 'Increases Teamwork Range by {}',
 		obtained: 'Play in Multiplayer.',
 		increase: 1,
-		symbol: 'm'
+		symbol: 'm',
+		icon: Icons.team
 	},
 	triage: {
 		points: 0,
@@ -227,7 +248,8 @@ export const TalentList = {
 		effect: 'Increase Health Regeneration Effectiveness by {}.',
 		obtained: 'Obtained after speaking to Navun at Yaesha - Shrine of The Immortals.',
 		increase: 5,
-		symbol: '%'
+		symbol: '%',
+		icon: Icons.potion
 	},
 	triggerHappy: {
 		points: 0,
@@ -235,7 +257,8 @@ export const TalentList = {
 		effect: 'Increase Weapon Fire Rate {}.',
 		obtained: 'Level a non-boss ranged weapon to 20.',
 		increase: 1,
-		symbol: '%'
+		symbol: '%',
+		icon: Icons.handPointRight
 	},
 	warrior: {
 		points: 0,
@@ -243,7 +266,8 @@ export const TalentList = {
 		effect: 'Increases Melee Damage by {}.',
 		obtained: 'Scrapper Starting Trait or obtained by completing the Tale of Two Lizs event that can randomly spawn in The Warren dungeon on Earth.',
 		increase: 1.25,
-		symbol: '%'
+		symbol: '%',
+		icon: Icons.armFlex
 	},
 	willToLive: {
 		points: 0,
@@ -251,7 +275,8 @@ export const TalentList = {
 		effect: 'Increases Health while wounded by {}.',
 		obtained: 'Be Revived in Multiplayer.',
 		increase: 5,
-		symbol: '%'
+		symbol: '%',
+		icon: Icons.will
 	},
 	worldWalker: {
 		points: 0,
@@ -259,7 +284,8 @@ export const TalentList = {
 		effect: 'Reduces Stamina Cost by {}.',
 		obtained: 'Obtained when you first enter Rhom.',
 		increase: -1,
-		symbol: '%'
+		symbol: '%',
+		icon: Icons.earth
 	}
 };
 

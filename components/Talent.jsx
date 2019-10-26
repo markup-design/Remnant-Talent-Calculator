@@ -46,10 +46,10 @@ export class Talent extends React.Component {
 	render() {
 		return (
 			<div {...style('root')}>
-				<div>{this.props.name}</div>
+				<div className={style.traitName}>{this.props.name}</div>
 				<div className={style.obtained}>{this.props.obtained}</div>
 				<div className={style.icon}>{this._renderIcon()}</div>
-				<div>{this._renderEffect()}</div>
+				<div className={style.effect}>{this._renderEffect()}</div>
 				<div className={style.adjusters}>
 					<Icon
 						className={style.item}
