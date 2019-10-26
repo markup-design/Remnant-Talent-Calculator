@@ -1,6 +1,8 @@
 .root {
+	position: relative;
  	cursor: pointer;
 	padding: 10px;
+	border: 1px solid white;
 }
 
 .root:hover {
@@ -15,4 +17,12 @@
 	display: none;
 	border: 1px solid black;
 	padding: 10px;
+	width: 300px;
+	position: absolute;
+	top: 100%;
+	left: -1px;
+	background-color: white;
+	z-index: 1;
+	box-shadow: 3px 3px 3px 0px rgba(0,0,0,0.75);
+	pointer-events: none;
 }

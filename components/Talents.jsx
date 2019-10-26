@@ -4,6 +4,8 @@ import {TalentList} from './libs/TalentList';
 
 import Talent from './Talent';
 
+import style from './Talents.st.css';
+
 export class Talents extends React.Component {
 
 	constructor() {
@@ -27,7 +29,6 @@ export class Talents extends React.Component {
 
 	_renderTalents() {
 		return Object.keys(TalentList).map((talentKey) => {
-			console.log(talentKey);
 			return (
 				<Talent
 					effect={TalentList[talentKey].effect}
@@ -43,9 +44,9 @@ export class Talents extends React.Component {
 
 	render() {
 		return (
-			<div>
+			<div {...style('root')}>
 				<div>{'Available Talents:' + this.state.availableTalents}</div>
-				{this._renderTalents()}
+				<div className={style.talentList}>{this._renderTalents()}</div>
 			</div>
 		);
 	}

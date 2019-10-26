@@ -1,0 +1,8 @@
+.root {
+
+}
+
+.talentList {
+	display: flex;
+	flex-wrap: wrap;
+}
