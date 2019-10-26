@@ -2,7 +2,7 @@
 	position: relative;
  	cursor: pointer;
 	margin: 10px;
-	padding: 10px;
+	padding: 20px 10px;
 	border: 1px solid white;
 	width: 300px;
 	text-align: center;
@@ -32,6 +32,10 @@
 .adjusters .subtract {
 	font-size: 20px;
 	padding: 5px;
+}
+
+.icon {
+	padding: 10px;
 }
 
 .obtained {

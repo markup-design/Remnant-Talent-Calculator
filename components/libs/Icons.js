@@ -2,6 +2,7 @@ export const Icons = {
 	add: 'plus-circle',
 	brightness7: 'brightness-7',
 	dagger: 'knife-military',
+	default: 'cancel',
 	shield: 'shield',
 	melee: 'sword',
 	plus: 'account-plus',

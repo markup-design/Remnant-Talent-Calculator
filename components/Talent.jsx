@@ -11,6 +11,8 @@ export class Talent extends React.Component {
 		super();
 
 		this._addPoint = this._addPoint.bind(this);
+		this._subtractPoint = this._subtractPoint.bind(this);
+		this._renderEffect = this._renderEffect.bind(this);
 	}
 
 	_addPoint() {
@@ -19,16 +21,40 @@ export class Talent extends React.Component {
 		}
 	}
 
+	_subtractPoint() {
+		if (this.props.onSubtractPoint) {
+			this.props.onSubtractPoint(this.props.talentKey);
+		}
+	}
+
+	_renderEffect() {
+		let effectAmount = this.props.increase * this.props.points;
+		if (this.props.symbol) {
+			effectAmount = effectAmount.toString() + this.props.symbol;
+		}
+		return this.props.effect.replace('{}', effectAmount);
+	}
+
+	_renderIcon() {
+		if (!this.props.icon) {
+			return <Icon name={Icons.default}/>;
+		}
+
+		return <Icon name={this.props.icon}/>;
+	}
+
 	render() {
 		return (
 			<div {...style('root')}>
 				<div>{this.props.name}</div>
 				<div className={style.obtained}>{this.props.obtained}</div>
-				<div><Icon name={this.props.icon}/></div>
+				<div className={style.icon}>{this._renderIcon()}</div>
+				<div>{this._renderEffect()}</div>
 				<div className={style.adjusters}>
 					<Icon
 						className={style.item}
 						name={Icons.subtract}
+						onClick={this._subtractPoint}
 						/>
 					<div className={style.item}>{this.props.points}</div>
 					<Icon

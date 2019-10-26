@@ -9,7 +9,10 @@ export const Icon = (props) => {
         return null;
     }
     return (
-        <i {...style('root mdi mdi-'+props.name, {type: props.name}, props)}/>
+        <i
+			{...style('root mdi mdi-'+props.name, {type: props.name}, props)}
+			onClick={props.onClick}
+			/>
     );
 };
 
@@ -22,7 +25,12 @@ Icon.propTypes = {
     /**
      * Whether or not to display the icon.
      */
-    display: PropTypes.bool
+    display: PropTypes.bool,
+
+	/**
+	 * Handle on click events.
+	 */
+	onClick: PropTypes.func
 };
 
 Icon.defaultProps = {
