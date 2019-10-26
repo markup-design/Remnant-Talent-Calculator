@@ -79,6 +79,241 @@
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
 /******/
+/******/ 	/* runtime version: 1.0.4 */
+/******/ 	function StylableRuntime(exports){
+/******/ 	exports = exports || {};
+/******/ 	function require(){return exports;};
+/******/
+/******/ 	(function(){/* source: cached-node-renderer.ts */
+/******/ 	var CacheStyleNodeRenderer = /** @class */ (function () {
+/******/ 	    function CacheStyleNodeRenderer(options) {
+/******/ 	        var _this = this;
+/******/ 	        this.options = options;
+/******/ 	        this.create = function (stylesheet, key) {
+/******/ 	            var node = _this.options.createElement('style');
+/******/ 	            node.textContent = stylesheet.$css || '';
+/******/ 	            node.setAttribute(_this.options.attrKey, key);
+/******/ 	            node.setAttribute('st-depth', stylesheet.$depth + '');
+/******/ 	            return node;
+/******/ 	        };
+/******/ 	        this.hasKey = function (node) { return node.hasAttribute(_this.options.attrKey); };
+/******/ 	        this.update = function (stylesheet, node) {
+/******/ 	            if (node.textContent !== stylesheet.$css) {
+/******/ 	                node.textContent = stylesheet.$css || '';
+/******/ 	            }
+/******/ 	            return node;
+/******/ 	        };
+/******/ 	        this.renderKey = function (stylesheet) { return stylesheet.$id; };
+/******/ 	    }
+/******/ 	    return CacheStyleNodeRenderer;
+/******/ 	}());
+/******/ 	exports.CacheStyleNodeRenderer = CacheStyleNodeRenderer;
+/******/ 	}());
+/******/ 	(function(){/* source: keyed-list-renderer.ts */
+/******/ 	function createDOMListRenderer(nodeRenderer) {
+/******/ 	    var first;
+/******/ 	    var nodes = {};
+/******/ 	    var setNode = function (dataItem, node) {
+/******/ 	        return (nodes[nodeRenderer.renderKey(dataItem)] = node);
+/******/ 	    };
+/******/ 	    var renderNode = function (dataItem) {
+/******/ 	        var key = nodeRenderer.renderKey(dataItem);
+/******/ 	        var node = nodes[key];
+/******/ 	        return node
+/******/ 	            ? nodeRenderer.update(dataItem, node)
+/******/ 	            : setNode(dataItem, nodeRenderer.create(dataItem, key));
+/******/ 	    };
+/******/ 	    var render = function (container, data) {
+/******/ 	        if (data === void 0) { data = []; }
+/******/ 	        var node;
+/******/ 	        if (data.length) {
+/******/ 	            var next = first;
+/******/ 	            // tslint:disable-next-line:prefer-for-of
+/******/ 	            for (var i = 0; i < data.length; i++) {
+/******/ 	                node = renderNode(data[i]);
+/******/ 	                if (node !== next) {
+/******/ 	                    container.insertBefore(node, next || null);
+/******/ 	                }
+/******/ 	                else {
+/******/ 	                    next = node.nextElementSibling;
+/******/ 	                }
+/******/ 	            }
+/******/ 	            first = nodes[nodeRenderer.renderKey(data[0])];
+/******/ 	            while (node.nextElementSibling) {
+/******/ 	                if (nodeRenderer.hasKey(node.nextElementSibling)) {
+/******/ 	                    container.removeChild(node.nextElementSibling);
+/******/ 	                }
+/******/ 	                else {
+/******/ 	                    break;
+/******/ 	                }
+/******/ 	            }
+/******/ 	        }
+/******/ 	        else {
+/******/ 	            while (first) {
+/******/ 	                var next = first.nextElementSibling;
+/******/ 	                container.removeChild(first);
+/******/ 	                first = next && nodeRenderer.hasKey(next) ? next : undefined;
+/******/ 	            }
+/******/ 	        }
+/******/ 	    };
+/******/ 	    return { render: render, nodes: nodes };
+/******/ 	}
+/******/ 	exports.createDOMListRenderer = createDOMListRenderer;
+/******/ 	}());
+/******/ 	(function(){/* source: css-runtime-renderer.ts */
+/******/ 	var cached_node_renderer_1 = require("./cached-node-renderer");
+/******/ 	var keyed_list_renderer_1 = require("./keyed-list-renderer");
+/******/ 	var RuntimeRenderer = /** @class */ (function () {
+/******/ 	    function RuntimeRenderer() {
+/******/ 	        var _this = this;
+/******/ 	        this.styles = [];
+/******/ 	        this.stylesMap = {};
+/******/ 	        this.renderer = null;
+/******/ 	        this.window = null;
+/******/ 	        this.id = null;
+/******/ 	        this.update = function () {
+/******/ 	            if (_this.renderer) {
+/******/ 	                _this.renderer.render(_this.window.document.head, _this.styles);
+/******/ 	            }
+/******/ 	        };
+/******/ 	    }
+/******/ 	    RuntimeRenderer.prototype.init = function (_window) {
+/******/ 	        if (this.window || !_window) {
+/******/ 	            return;
+/******/ 	        }
+/******/ 	        _window.__stylable_renderer_global_counter =
+/******/ 	            _window.__stylable_renderer_global_counter || 0;
+/******/ 	        this.id = _window.__stylable_renderer_global_counter++;
+/******/ 	        this.window = _window;
+/******/ 	        this.renderer = keyed_list_renderer_1.createDOMListRenderer(new cached_node_renderer_1.CacheStyleNodeRenderer({
+/******/ 	            attrKey: 'st-id' + (this.id ? '-' + this.id : ''),
+/******/ 	            createElement: _window.document.createElement.bind(_window.document)
+/******/ 	        }));
+/******/ 	        this.update();
+/******/ 	    };
+/******/ 	    RuntimeRenderer.prototype.onRegister = function () {
+/******/ 	        if (this.window) {
+/******/ 	            this.window.requestAnimationFrame(this.update);
+/******/ 	        }
+/******/ 	    };
+/******/ 	    RuntimeRenderer.prototype.register = function (stylesheet) {
+/******/ 	        var registered = this.stylesMap[stylesheet.$id];
+/******/ 	        if (registered) {
+/******/ 	            this.removeStyle(registered);
+/******/ 	        }
+/******/ 	        var i = this.findDepthIndex(stylesheet.$depth);
+/******/ 	        this.styles.splice(i + 1, 0, stylesheet);
+/******/ 	        this.stylesMap[stylesheet.$id] = stylesheet;
+/******/ 	        this.onRegister();
+/******/ 	    };
+/******/ 	    RuntimeRenderer.prototype.removeStyle = function (stylesheet) {
+/******/ 	        var i = this.styles.indexOf(stylesheet);
+/******/ 	        if (~i) {
+/******/ 	            this.styles.splice(i, 1);
+/******/ 	        }
+/******/ 	        delete this.stylesMap[stylesheet.$id];
+/******/ 	    };
+/******/ 	    RuntimeRenderer.prototype.findDepthIndex = function (depth) {
+/******/ 	        var index = this.styles.length;
+/******/ 	        while (index--) {
+/******/ 	            var stylesheet = this.styles[index];
+/******/ 	            if (stylesheet.$depth <= depth) {
+/******/ 	                return index;
+/******/ 	            }
+/******/ 	        }
+/******/ 	        return index;
+/******/ 	    };
+/******/ 	    RuntimeRenderer.prototype.getStyles = function (ids, sortIndexes) {
+/******/ 	        var _this = this;
+/******/ 	        return this.sortStyles(ids.map(function (id) { return _this.stylesMap[id]; }), sortIndexes);
+/******/ 	    };
+/******/ 	    RuntimeRenderer.prototype.sortStyles = function (styles, sortIndexes) {
+/******/ 	        var _this = this;
+/******/ 	        if (sortIndexes === void 0) { sortIndexes = false; }
+/******/ 	        var s = styles.slice();
+/******/ 	        if (sortIndexes) {
+/******/ 	            s.sort(function (a, b) {
+/******/ 	                return _this.styles.indexOf(a) - _this.styles.indexOf(b);
+/******/ 	            });
+/******/ 	        }
+/******/ 	        s.sort(function (a, b) {
+/******/ 	            return a.$depth - b.$depth;
+/******/ 	        });
+/******/ 	        return s;
+/******/ 	    };
+/******/ 	    return RuntimeRenderer;
+/******/ 	}());
+/******/ 	exports.RuntimeRenderer = RuntimeRenderer;
+/******/ 	// The $ export is a convention with the webpack plugin if changed both needs a change
+/******/ 	exports.$ = new RuntimeRenderer();
+/******/ 	}());
+/******/ 	(function(){/* source: css-runtime-stylesheet.ts */
+/******/ 	function create(root, namespace, locals, css, depth, id) {
+/******/ 	    var dataNamespace = 'data-' + namespace.toLowerCase() + '-';
+/******/ 	    function cssStates(stateMapping) {
+/******/ 	        return stateMapping
+/******/ 	            ? Object.keys(stateMapping).reduce(function (states, key) {
+/******/ 	                var stateValue = stateMapping[key];
+/******/ 	                if (stateValue === undefined ||
+/******/ 	                    stateValue === null ||
+/******/ 	                    stateValue === false) {
+/******/ 	                    return states;
+/******/ 	                }
+/******/ 	                states[dataNamespace + key.toLowerCase()] = stateValue;
+/******/ 	                return states;
+/******/ 	            }, {})
+/******/ 	            : {};
+/******/ 	    }
+/******/ 	    function get(localName) {
+/******/ 	        return locals[localName];
+/******/ 	    }
+/******/ 	    function mapClasses(className) {
+/******/ 	        return className
+/******/ 	            .split(/\s+/g)
+/******/ 	            .map(function (className) { return get(className) || className; })
+/******/ 	            .join(' ');
+/******/ 	    }
+/******/ 	    locals.$root = root;
+/******/ 	    locals.$namespace = namespace;
+/******/ 	    locals.$depth = depth;
+/******/ 	    locals.$id = id;
+/******/ 	    locals.$css = css;
+/******/ 	    locals.$get = get;
+/******/ 	    locals.$cssStates = cssStates;
+/******/ 	    function stylable_runtime_stylesheet(className, states, inheritedAttributes) {
+/******/ 	        className = className ? mapClasses(className) : '';
+/******/ 	        var base = cssStates(states);
+/******/ 	        if (inheritedAttributes) {
+/******/ 	            for (var k in inheritedAttributes) {
+/******/ 	                if (k.match(/^data-/)) {
+/******/ 	                    base[k] = inheritedAttributes[k];
+/******/ 	                }
+/******/ 	            }
+/******/ 	            if (inheritedAttributes.className) {
+/******/ 	                className += ' ' + inheritedAttributes.className;
+/******/ 	            }
+/******/ 	        }
+/******/ 	        if (className) {
+/******/ 	            base.className = className;
+/******/ 	        }
+/******/ 	        return base;
+/******/ 	    }
+/******/ 	    Object.setPrototypeOf(stylable_runtime_stylesheet, locals);
+/******/ 	    // EDGE CACHE BUG FIX
+/******/ 	    stylable_runtime_stylesheet[locals.$root] = locals[locals.$root];
+/******/ 	    return stylable_runtime_stylesheet;
+/******/ 	}
+/******/ 	exports.create = create;
+/******/ 	function createTheme(css, depth, id) {
+/******/ 	    return { $css: css, $depth: depth, $id: id, $theme: true };
+/******/ 	}
+/******/ 	exports.createTheme = createTheme;
+/******/ 	}());;
+/******/ 	return exports;
+/******/ 	};
+/******/ 	__webpack_require__.stylable = StylableRuntime();
+/******/ 	__webpack_require__(/*! ./components/Talent.st.css */ "./components/Talent.st.css");
+/******/ 	if(typeof window !== 'undefined') { __webpack_require__.stylable.$.init(window); }
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(__webpack_require__.s = "./app/index.js");
@@ -106,7 +341,54 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var reac
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"Main\", function() { return Main; });\nlet React = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n\nconst Main = () => {\n    return React.createElement(\n        'h1',\n        null,\n        'Hello World!'\n    );\n};\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Main);\n\n//# sourceURL=webpack:///./components/Main.jsx?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"Main\", function() { return Main; });\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _Talents__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Talents */ \"./components/Talents.jsx\");\n\n\n\n\nconst Main = () => {\n    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\n        'div',\n        null,\n        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\n            'h1',\n            null,\n            'Remnant Talent Calculator'\n        ),\n        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Talents__WEBPACK_IMPORTED_MODULE_1__[\"default\"], null)\n    );\n};\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Main);\n\n//# sourceURL=webpack:///./components/Main.jsx?");
+
+/***/ }),
+
+/***/ "./components/Talent.jsx":
+/*!*******************************!*\
+  !*** ./components/Talent.jsx ***!
+  \*******************************/
+/*! exports provided: Talent, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"Talent\", function() { return Talent; });\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _Talent_st_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Talent.st.css */ \"./components/Talent.st.css\");\n/* harmony import */ var _Talent_st_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_Talent_st_css__WEBPACK_IMPORTED_MODULE_1__);\n\n\n\n\nconst Talent = props => {\n\treturn react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\n\t\t'div',\n\t\t_Talent_st_css__WEBPACK_IMPORTED_MODULE_1___default()('root'),\n\t\treact__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\n\t\t\t'div',\n\t\t\tnull,\n\t\t\tprops.name\n\t\t),\n\t\treact__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\n\t\t\t'div',\n\t\t\t{ className: _Talent_st_css__WEBPACK_IMPORTED_MODULE_1___default.a.obtained },\n\t\t\tprops.obtained\n\t\t),\n\t\treact__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('div', null)\n\t);\n};\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Talent);\n\n//# sourceURL=webpack:///./components/Talent.jsx?");
+
+/***/ }),
+
+/***/ "./components/Talent.st.css":
+/*!**********************************!*\
+  !*** ./components/Talent.st.css ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("Object.defineProperty(exports, \"__esModule\", { value: true })\r\n\r\nexports.default = __webpack_require__.stylable.create(\r\n  \"root\",\r\n  \"Talent1385734683\",\r\n  {\"root\":\"Talent1385734683--root\",\"obtained\":\"Talent1385734683--obtained\"},\r\n  \".Talent1385734683--root{cursor:pointer;padding:10px}.Talent1385734683--root:hover{border:1px solid #000}.Talent1385734683--root:hover .Talent1385734683--obtained{display:block}.Talent1385734683--obtained{display:none;border:1px solid #000;padding:10px}\",\r\n  1,\r\n  /*! ./components/Talent.st.css */ \"./components/Talent.st.css\"\r\n);\r\n__webpack_require__.stylable.$.register(exports.default)\r\n\n\n//# sourceURL=webpack:///./components/Talent.st.css?");
+
+/***/ }),
+
+/***/ "./components/Talents.jsx":
+/*!********************************!*\
+  !*** ./components/Talents.jsx ***!
+  \********************************/
+/*! exports provided: Talents, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"Talents\", function() { return Talents; });\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _libs_TalentList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./libs/TalentList */ \"./components/libs/TalentList.js\");\n/* harmony import */ var _Talent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Talent */ \"./components/Talent.jsx\");\n\n\n\n\n\n\nclass Talents extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {\n\n\tconstructor() {\n\t\tsuper();\n\n\t\tthis.state = {\n\t\t\tavailableTalents: 350,\n\n\t\t\ttalents: _libs_TalentList__WEBPACK_IMPORTED_MODULE_1__[\"TalentList\"]\n\t\t};\n\n\t\tthis._addPoint = this._addPoint.bind(this);\n\t}\n\n\t_addPoint(talentKey) {\n\t\tconst newTalents = Object.assign({}, this.state.talents);\n\t\tnewTalents[talentKey].amount = newTalents[talentKey].amount++;\n\n\t\tthis.setState(talents);\n\t}\n\n\t_renderTalents() {\n\t\treturn Object.keys(_libs_TalentList__WEBPACK_IMPORTED_MODULE_1__[\"TalentList\"]).map(talentKey => {\n\t\t\tconsole.log(talentKey);\n\t\t\treturn react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Talent__WEBPACK_IMPORTED_MODULE_2__[\"default\"], {\n\t\t\t\teffect: _libs_TalentList__WEBPACK_IMPORTED_MODULE_1__[\"TalentList\"][talentKey].effect,\n\t\t\t\tkey: talentKey,\n\t\t\t\tname: _libs_TalentList__WEBPACK_IMPORTED_MODULE_1__[\"TalentList\"][talentKey].name,\n\t\t\t\tpoints: _libs_TalentList__WEBPACK_IMPORTED_MODULE_1__[\"TalentList\"][talentKey].points,\n\t\t\t\tobtained: _libs_TalentList__WEBPACK_IMPORTED_MODULE_1__[\"TalentList\"][talentKey].obtained,\n\t\t\t\tonAddPoint: this._addPoint\n\t\t\t});\n\t\t});\n\t}\n\n\trender() {\n\t\treturn react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\n\t\t\t'div',\n\t\t\tnull,\n\t\t\treact__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\n\t\t\t\t'div',\n\t\t\t\tnull,\n\t\t\t\t'Available Talents:' + this.state.availableTalents\n\t\t\t),\n\t\t\tthis._renderTalents()\n\t\t);\n\t}\n};\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Talents);\n\n//# sourceURL=webpack:///./components/Talents.jsx?");
+
+/***/ }),
+
+/***/ "./components/libs/TalentList.js":
+/*!***************************************!*\
+  !*** ./components/libs/TalentList.js ***!
+  \***************************************/
+/*! exports provided: TalentList, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"TalentList\", function() { return TalentList; });\nconst TalentList = {\n\tarcaneStrike: {\n\t\tincrease: 2.5,\n\t\teffect: 'Increases Mod Power gained on Melee hits by +2.5%',\n\t\tname: 'Arcane Strike',\n\t\tobtained: 'Defeat the Ravager',\n\t\tpoints: 0,\n\t\tsymbol: '%'\n\t},\n\tendurance: {\n\t\teffect: 'Increases Max Stamina by +2.5 per point.',\n\t\tname: 'Endurance',\n\t\tobtained: 'Default Trait',\n\t\tpoints: 0\n\t},\n\tvigorMax: {\n\t\teffect: 'Increase Max Health by +2.5 per point.',\n\t\tname: 'Vigor Max',\n\t\tobtained: 'Default Trait',\n\t\tpoints: 0,\n\t\tsymbol: '%'\n\t},\n\tbarkSkin: {\n\t\tpoints: 0,\n\t\tname: 'Bark Skin',\n\t\teffect: 'Increases Armor Effectiveness by +1.25% per point',\n\t\tobtained: 'Obtain the Twisted Mask from the Mad Merchant in Junk Town. Equip it and speak to the Living Tree on Earth. Only one player can obtain this per playthrough.',\n\t\tincrease: 2.5,\n\t\tsymbol: '%'\n\t},\n\tcatalyst: {\n\t\tpoints: 0,\n\t\tname: 'Catalyst',\n\t\teffect: 'Proc Chance +1% per Point',\n\t\tobtained: 'Defeat The Thrall in Corsus - Musk Forge.',\n\t\tincrease: 1,\n\t\tsymbol: '%'\n\t},\n\tcoldAsIce: {\n\t\tpoints: 0,\n\t\tname: 'Cold as Ice',\n\t\teffect: 'Increases Backstab Damage',\n\t\tobtained: 'Defeat your friends during the Brabus encounter.'\n\t},\n\telderKnowledge: {\n\t\tpoints: 0,\n\t\tname: 'Elder Knowledge',\n\t\teffect: 'Increases Experience Point Bonus by +1.75% per Point.',\n\t\tobtained: 'Play the tape recorder in the basement of Ward 13.'\n\t},\n\texecutioner: {\n\t\tpoints: 0,\n\t\tname: 'Executioner',\n\t\teffect: 'Increases Critical Hit Chance by +1% per Point.',\n\t\tobtained: 'Defeat Ixillis in Crosus.'\n\t},\n\texploiter: {\n\t\tpoints: 0,\n\t\tname: 'Exploiter',\n\t\teffect: 'Increases Weak Spot Damage by 1.25% per Point.',\n\t\tobtained: 'Kill 150 enemies with Weak Spot Damage.'\n\t},\n\tglutton: {\n\t\tpoints: 0,\n\t\tname: 'Glutton',\n\t\teffect: 'Consumable Use Speed +2.5% per Point.',\n\t\tobtained: 'Defeat The Unclean One.'\n\t},\n\tgaurdiansBlessing: {\n\t\tpoints: 0,\n\t\tname: 'Guardian\\'s Blessing',\n\t\teffect: 'Melee Damage Reduction +1% per Point.',\n\t\tobtained: 'Look in the \"detailed descriptions\" section for an explanation.'\n\t},\n\thandling: {\n\t\tpoints: 0,\n\t\tname: 'Handling',\n\t\teffect: 'Decreases Gun Spread and Recoil by -1% per Point.',\n\t\tobtained: 'Collect 10 Weapons.'\n\t},\n\tkeepersBlessing: {\n\t\tpoints: 0,\n\t\tname: 'Keeper\\'s Blessing',\n\t\teffect: 'Increase Elemental Resistance by +1% per Point.',\n\t\tobtained: 'Find The Labyrinth or Help the Rebels on Yaesha.'\n\t},\n\tkingslayer: {\n\t\tpoints: 0,\n\t\tname: 'Kingslayer',\n\t\teffect: 'Critical Hit Damage +2.5% per Point.',\n\t\tobtained: 'Defeat The Undying King in Rhom - Hall of The Undying.'\n\t},\n\tmindsEye: {\n\t\tpoints: 0,\n\t\tname: 'Minds Eye',\n\t\teffect: 'Increases Ranged Damage by +1.25% per Point.',\n\t\tobtained: 'Defeat The Dreamer/Nightmare.'\n\t},\n\tmothersBlessing: {\n\t\tpoints: 0,\n\t\tname: 'Mother\\'s Blessing',\n\t\teffect: 'Ranged Damage Reduction by +1% per Point.',\n\t\tobtained: 'Defend the Root Mother.'\n\t},\n\tquickHands: {\n\t\tpoints: 0,\n\t\tname: 'Quick Hands',\n\t\teffect: 'Increases Weapon Reload Speed by 1.5% per Point.',\n\t\tobtained: 'Defeat the second Dungeon Boss.'\n\t},\n\trapidStrike: {\n\t\tpoints: 0,\n\t\tname: 'Rapid Strike',\n\t\teffect: 'Increases Melee Attack Speed.',\n\t\tobtained: 'Level a non-boss Melee weapon to 20.'\n\t},\n\trecovery: {\n\t\tpoints: 0,\n\t\tname: 'Recovery',\n\t\teffect: 'Increases the value of Stamina Regeneration and decreases its delay by +1.25% per Point.',\n\t\tobtained: 'Defeat Claviger in Rhom - The Spindle.'\n\t},\n\trevivalist: {\n\t\tpoints: 0,\n\t\tname: 'Revivalist',\n\t\teffect: 'Revive Speed +5% per Point.',\n\t\tobtained: 'Revive your teammates.'\n\t},\n\tscavenger: {\n\t\tpoints: 0,\n\t\tname: 'Scavenger',\n\t\teffect: 'Increases Scrap Boost by +2.5% per Point.',\n\t\tobtained: 'Talk to Reggie until you run down all of his dialogue. Give him the Tarnished Ring which is obtained randomly on Earth.'\n\t},\n\tshadowWalker: {\n\t\tpoints: 0,\n\t\tname: 'Shadow Walker',\n\t\teffect: 'Reduces Enemy Awareness by 1-.5% per Point.',\n\t\tobtained: 'Hunter Starting Trait or obtained by completing the Hunters Hideout event that can randomly spawn in the Hidden Grotto dungeon on Earth.'\n\t},\n\tsleightOfHand: {\n\t\tpoints: 0,\n\t\tname: 'Sleight of Hand',\n\t\teffect: 'Weapon Swap Speed +2.5% per Point.',\n\t\tobtained: 'Get a 100 kills with 10 different guns (1,000 total kills, 100 on each gun).'\n\t},\n\tspirit: {\n\t\tpoints: 0,\n\t\tname: 'Spirit',\n\t\teffect: 'Increases Mod Power Generation by 2.5% per Point.',\n\t\tobtained: 'Ex-Cultist Starting Trait or obtained by completing the Supply Run event that can randomly spawn in Sorrows Field dungeon on Earth.'\n\t},\n\tswiftness: {\n\t\tpoints: 0,\n\t\tname: 'Swiftness',\n\t\teffect: 'Movement Speed Increased.',\n\t\tobtained: 'Go to the bell puzzle in Yaesha, and ring the bells with the following combination: 1-1-3-4-1-1-3-2 (left-most bell: 1, right-most bell: 5).'\n\t},\n\tsuspicion: {\n\t\tpoints: 0,\n\t\tname: 'Suspicion',\n\t\teffect: 'Reduced Friendly Fire Damage Taken.',\n\t\tobtained: 'Be downed by your teammates 10 times.'\n\t},\n\tteamwork: {\n\t\tpoints: 0,\n\t\tname: 'Teamwork',\n\t\teffect: 'Increases Teamwork Range by 1 meter per Point',\n\t\tobtained: 'Play in Multiplayer.'\n\t},\n\ttriage: {\n\t\tpoints: 0,\n\t\tname: 'Triage',\n\t\teffect: 'Health Regeneration Effectiveness +5% per Point.',\n\t\tobtained: 'Obtained after speaking to Navun at Yaesha - Shrine of The Immortals.'\n\t},\n\ttriggerHappy: {\n\t\tpoints: 0,\n\t\tname: 'Trigger Happy',\n\t\teffect: 'Increase Weapon Fire Rate by 1% per Point.',\n\t\tobtained: 'Level a non-boss ranged weapon to 20.'\n\t},\n\twarrior: {\n\t\tpoints: 0,\n\t\tname: 'Warrior',\n\t\teffect: 'Increases Melee Damage by 1.25% per Point.',\n\t\tobtained: 'Scrapper Starting Trait or obtained by completing the Tale of Two Lizs event that can randomly spawn in The Warren dungeon on Earth.'\n\t},\n\twillToLive: {\n\t\tpoints: 0,\n\t\tname: 'Will to Live',\n\t\teffect: 'Increases Health while wounded by +5% per Point.',\n\t\tobtained: 'Be Revived in Multiplayer.'\n\t},\n\tworldWalker: {\n\t\tpoints: 0,\n\t\tname: 'World Walker',\n\t\teffect: 'Reduces Stamina Cost by -1% per Point.',\n\t\tobtained: 'Obtained when you first enter Rhom.'\n\t}\n};\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (TalentList);\n\n//# sourceURL=webpack:///./components/libs/TalentList.js?");
 
 /***/ }),
 

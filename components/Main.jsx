@@ -1,8 +1,13 @@
-let React = require('react');
+import React, { useState } from 'react';
+
+import Talents from './Talents';
 
 export const Main = () => {
     return (
-        <h1>Hello World!</h1>
+        <div>
+			<h1>Remnant Talent Calculator</h1>
+			<Talents/>
+		</div>
     );
 };
 
