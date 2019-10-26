@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/nullsage/Remnant-Talent-Calculator#readme",
   "dependencies": {
+    "@mdi/font": "^3.9.97",
     "@stylable/webpack-plugin": "^1.1.4",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",

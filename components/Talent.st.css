@@ -1,8 +1,12 @@
 .root {
 	position: relative;
  	cursor: pointer;
+	margin: 10px;
 	padding: 10px;
 	border: 1px solid white;
+	width: 300px;
+	text-align: center;
+	background-color: lightblue;
 }
 
 .root:hover {
@@ -11,6 +15,23 @@
 
 .root:hover .obtained {
 	display: block;
+}
+
+.adjusters {
+	padding: 5px;
+	display: flex;
+	justify-content: center;
+}
+
+.adjusters .item {
+	font-size: 20px;
+	padding: 5px;
+	vertical-align: middle;
+}
+
+.adjusters .subtract {
+	font-size: 20px;
+	padding: 5px;
 }
 
 .obtained {

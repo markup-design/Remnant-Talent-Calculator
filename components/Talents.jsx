@@ -32,10 +32,12 @@ export class Talents extends React.Component {
 			return (
 				<Talent
 					effect={TalentList[talentKey].effect}
+					icon={TalentList[talentKey].icon}
 					key={talentKey}
 					name={TalentList[talentKey].name}
 					points={TalentList[talentKey].points}
 					obtained={TalentList[talentKey].obtained}
+					talentKey={talentKey}
 					onAddPoint={this._addPoint}
 					/>
 			);
@@ -45,7 +47,7 @@ export class Talents extends React.Component {
 	render() {
 		return (
 			<div {...style('root')}>
-				<div>{'Available Talents:' + this.state.availableTalents}</div>
+				<div className={style.availableTalents}>{'Available Talents: ' + this.state.availableTalents}</div>
 				<div className={style.talentList}>{this._renderTalents()}</div>
 			</div>
 		);

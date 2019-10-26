@@ -1,3 +1,5 @@
+import Icons from './Icons';
+
 export const TalentList = {
 	arcaneStrike: {
 		increase: 2.5,
@@ -5,28 +7,33 @@ export const TalentList = {
 		name: 'Arcane Strike',
 		obtained: 'Defeat the Ravager',
 		points: 0,
-		symbol: '%'
+		symbol: '%',
+		icon: Icons.melee
 	},
 	endurance: {
 		effect: 'Increases Max Stamina by +2.5 per point.',
 		name: 'Endurance',
 		obtained: 'Default Trait',
-		points: 0
+		points: 0,
+		increase: 2.5,
+		icon: Icons.run
 	},
 	vigorMax: {
 		effect: 'Increase Max Health by +2.5 per point.',
 		name: 'Vigor Max',
 		obtained: 'Default Trait',
 		points: 0,
-		symbol: '%'
+		increase: 2.5,
+		icon: Icons.plus
 	},
 	barkSkin: {
 		points: 0,
 		name: 'Bark Skin',
 		effect: 'Increases Armor Effectiveness by +1.25% per point',
 		obtained: 'Obtain the Twisted Mask from the Mad Merchant in Junk Town. Equip it and speak to the Living Tree on Earth. Only one player can obtain this per playthrough.',
-		increase: 2.5,
-		symbol: '%'
+		increase: 1.25,
+		symbol: '%',
+		icon: Icons.shield
 	},
 	catalyst: {
 		points: 0,
@@ -34,7 +41,8 @@ export const TalentList = {
 		effect: 'Proc Chance +1% per Point',
 		obtained: 'Defeat The Thrall in Corsus - Musk Forge.',
 		increase: 1,
-		symbol: '%'
+		symbol: '%',
+		icon: Icons.brightness7
 	},
 	coldAsIce: {
 		points: 0,
@@ -42,7 +50,8 @@ export const TalentList = {
 		effect: 'Increases Backstab Damage',
 		obtained: 'Defeat your friends during the Brabus encounter.',
 		increase: 1,
-		symbol: '%'
+		symbol: '%',
+		icon: Icons.dagger
 	},
 	elderKnowledge: {
 		points: 0,
